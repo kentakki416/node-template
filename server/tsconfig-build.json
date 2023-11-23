@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist", // JSの出力対象
+    "rootDir": "./src", // コンパイル対象のファイル
+    "declaration": true,
+    "declarationMap": true,
+    "noEmit": false,
+    "noUnusedLocals": true
+  },
+  "include": [
+    "./src"
+  ]
+}
