@@ -12,6 +12,14 @@ build:
 run:
 	bash -c "docker run --name $(CONTAINER_NAME) -it -p 8080:8080 $(IMAGE_NAME)"
 
+.PHONY: run-d
+run-d:
+	bash -c "docker run --name $(CONTAINER_NAME) -it -d -p 8080:8080 $(IMAGE_NAME)"
+
+.PHONY: exec
+exec:
+	bash -c "docker exec -it $(CONTAINER_NAME) sh "
+
 .PHONY: stop
 stop:
 	docker stop $(CONTAINER_NAME)
@@ -21,7 +29,19 @@ stop:
 clean:
 	docker rmi $(IMAGE_NAME)
 
-.PHONY: test
-test:
+.PHONY: removeAll
+removeAll:
+	docker image prune -a
+
+.PHONY: ci
+ci:
 	docker build -t $(IMAGE_NAME) .
 	docker run --name $(IMAGE_NAME) -p 8080:8080 -d $(IMAGE_NAME)
+
+.PHONY: history
+history:
+	docker history ${IMAGE_NAME}
+
+.PHONY: ls
+ls:
+	docker image ls
