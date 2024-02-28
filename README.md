@@ -9,9 +9,9 @@ Node.js(+Express + Typescript)のテンプレート
 # Features
 ディレクトリ構成（モノシリック）
 
-* 管理画面
-* web画面
-* サーバー画面
+* 管理画面 - admin
+* フロント - front
+* サーバー - server
 
 # Requirement
 
@@ -40,7 +40,8 @@ python demo.py
 
 # Note
 
-注意点などがあれば書く
+参考：
+[Node.jsベストプラクティス](https://github.com/goldbergyoni/nodebestpractices/blob/master/README.japanese.md)
 
 # Author
 
