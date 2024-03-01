@@ -10,7 +10,7 @@ build:
 
 .PHONY: run
 run:
-	bash -c "docker run --name $(CONTAINER_NAME) -it -p 8080:8080 $(IMAGE_NAME)"
+	bash -c "docker run --memory 625m --name $(CONTAINER_NAME) -it -p 8080:8080 $(IMAGE_NAME) "
 
 .PHONY: run-d
 run-d:
