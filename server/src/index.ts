@@ -1,4 +1,4 @@
-import * as express from "express";
+import * as express from 'express';
 
 const app = express();
 
@@ -7,5 +7,5 @@ app.listen(8080, () => {
 })
 
 app.get("/", (_, res) => {
-  return res.send("Hello World");
+  return res.send('Hello World');
 });
