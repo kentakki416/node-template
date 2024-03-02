@@ -1,11 +1,11 @@
-import * as express from "express";
+import * as express from 'express';
 
 const app = express();
 
 app.listen(8080, () => {
-  console.log('Start!!')
+  // console.log('Start!!')
 })
 
-app.get("/", (_, res) => {
-  return res.send("Hello World");
+app.get('/', (_, res) => {
+  return res.send('Hello World');
 });
