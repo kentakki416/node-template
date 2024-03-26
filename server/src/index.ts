@@ -1,11 +1,8 @@
-import * as express from 'express';
+import { ExpressServer } from "./infrastructure/express"
 
-const app = express();
+(async () => {
+  const port = 8080
+  const server = new ExpressServer(port)
+  server.run()
+})()
 
-app.listen(8080, () => {
-  // console.log('Start!!')
-})
-
-app.get('/', (_, res) => {
-  return res.send('Hello World');
-});
