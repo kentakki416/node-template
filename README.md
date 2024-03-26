@@ -3,8 +3,7 @@
 Node.js(+Express + Typescript)のテンプレート
 
 # DEMO
-
-"hoge"の魅力が直感的に伝えわるデモ動画や図解を載せる
+![CleanArchitecture.jpg](images/CleanArchitecture.jpg)
 
 # Features
 ディレクトリ構成（モノシリック）
