@@ -42,10 +42,6 @@ ci:
 history:
 	docker history ${IMAGE_NAME}
 
-.PHONY: ls
-ls:
-	docker image ls
-
 .PHONY: inspect
 ls:
 	docker inspect ${CONTAINER_NAME}
