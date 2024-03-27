@@ -3,7 +3,6 @@
 Node.js(+Express + Typescript)のテンプレート
 
 # DEMO
-![CleanArchitecture.jpg](images/CleanArchitecture.jpg)
 
 # Features
 ディレクトリ構成（モノシリック）
@@ -11,6 +10,15 @@ Node.js(+Express + Typescript)のテンプレート
 * 管理画面 - admin
 * フロント - front
 * サーバー - server
+
+サーバーはクリーンアーキテクチャを採用
+
+＜メリット＞
+* アプリが疎結合になる ： フレームワーク、データベース、ビジネスロジックが互いに依存しない
+* テストコードが書きやすくなる ： データベースを用意しなくてもロジックテストが可能
+* コード変更の影響が最小限になり回収コストを下げれる ： ライブラリの置き換えが簡単
+
+![CleanArchitecture.jpg](images/CleanArchitecture.jpg)
 
 # Requirement
 
