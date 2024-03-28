@@ -1,8 +1,8 @@
-import {IDBClient} from '../../infrastructure/database/db_client';
-import {IUserRepository, UserRepository} from "../repository/user_repository";
-import { RequestCreateUser, CreateUserUsecase } from '../../usecase'
-import { UserSerialize, Response, UserResponseData } from '../serializer';
-import { ReadUserUsecase, RequestReadUser } from '../../usecase/user/';
+import { IDBClient } from "../../infrastructure/database";
+import { IUserRepository, UserRepository } from "../repository/user_repository";
+import { RequestCreateUser, CreateUserUsecase } from "../../usecase"
+import { UserSerialize, Response, UserResponseData } from "../serializer";
+import { ReadUserUsecase, RequestReadUser } from "../../usecase/user/";
 
 export class UserController {
   private userSelialize: UserSerialize
