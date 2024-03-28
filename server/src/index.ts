@@ -1,4 +1,4 @@
-import { ExpressServer } from "./infrastructure/express"
+import { ExpressServer } from "./infrastructure/express/express"
 
 (async () => {
   const port = 8080

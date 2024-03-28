@@ -1,1 +1,2 @@
-export * as Task from './task'
+export * from './task'
+export * from './user'
