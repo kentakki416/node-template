@@ -1,11 +1,11 @@
 import { User } from '../../domain'
-import IUserRepository from '../../adapter/repository/user_repository'
+import {IUserRepository} from '../../adapter/repository/user_repository'
 
 export type RequestCreateUser = {
   name: string,
 }
 
-export class CreateUserUseCase {
+export class CreateUserUsecase {
   private userRepo: IUserRepository
 
   constructor(userRepo: IUserRepository) {

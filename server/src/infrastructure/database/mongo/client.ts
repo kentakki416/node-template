@@ -1,7 +1,7 @@
 import mongoose, { Model} from "mongoose"
-import IDBClient from "../db_client"
+import {IDBClient} from "../"
 import {User} from '../../../domain'
-import { UserModel } from "./models/user"
+import { UserModel } from "./models"
 
 interface Models {
   [key: string]: Model<any>
@@ -42,11 +42,11 @@ export class MongoClient implements IDBClient {
     return await model.create(params)
   }
 
-  public async findOne(modelName: string): Promise<any|null>{
+  public async findOne(modelName: string, id: number): Promise<any|null>{
     const model = this.models[modelName]
     if (!model) {
       throw new Error(`Model ${modelName} is not found`)
     }
-    return await model.findOne().exec()
+    return await model.findById(id).exec()
   }
 }

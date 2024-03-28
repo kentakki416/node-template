@@ -1,25 +1,37 @@
 import {IDBClient} from '../../infrastructure/database/db_client';
 import {IUserRepository, UserRepository} from "../repository/user_repository";
-import { RequestCreateUser, CreateUserUseCase } from '../../usecase'
-import { CreateUserSerialize, Response, UserResponseData } from '../serializer';
+import { RequestCreateUser, CreateUserUsecase } from '../../usecase'
+import { UserSerialize, Response, UserResponseData } from '../serializer';
+import { ReadUserUsecase, RequestReadUser } from '../../usecase/user/';
 
 export class UserController {
-  private userSelialize: CreateUserSerialize
+  private userSelialize: UserSerialize
   private userRepo: IUserRepository
 
   constructor(db: IDBClient) {
-    this.userSelialize = new CreateUserSerialize()
+    this.userSelialize = new UserSerialize()
     this.userRepo = new UserRepository(db)
   }
 
   public async createUser(body: RequestCreateUser): Promise<Response<UserResponseData>| Response<{}>> {
     try {
-      const useCase = new CreateUserUseCase(this.userRepo)
+      const useCase = new CreateUserUsecase(this.userRepo)
       const res = await useCase.execute(body)
-      return this.userSelialize.serialize(res)
+      return this.userSelialize.create(res)
     } catch (err) {
       console.log(err)
       return this.userSelialize.error(err as Error)  
+    }
+  }
+
+  public async findOne(body: RequestReadUser) {
+    try {
+      const useCase = new ReadUserUsecase(this.userRepo)
+      const res = await useCase.execute(body)
+      return this.userSelialize.findOne(res)
+    } catch (err) {
+      console.log(err)
+      return this.userSelialize.error(err as Error)
     }
   }
 }

@@ -7,12 +7,31 @@ export interface UserResponseData {
   name: string
 }
 
-export class CreateUserSerialize extends BaseSerialize {
-  public serialize(data: User): Response<UserResponseData> {
+export class UserSerialize extends BaseSerialize {
+  public create(data: User): Response<UserResponseData> {
     if (!data) {
       return {
         code: CONSTANT.STATUS_CODE.SERVER_ERROR,
         message: 'data is null',
+        responsedAt: new Date(),
+      }
+    }
+
+    return {
+      code: CONSTANT.STATUS_CODE.SUCCESS,
+      data: {
+        id: data.id,
+        name: data.name
+      },
+      responsedAt: new Date()
+    }
+  }
+
+  public findOne(data: User): Response<UserResponseData> {
+    if (!data) {
+      return {
+        code: CONSTANT.STATUS_CODE.NOT_FOUND,
+        message: 'user is not found',
         responsedAt: new Date(),
       }
     }

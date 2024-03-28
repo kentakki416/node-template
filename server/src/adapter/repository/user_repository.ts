@@ -1,5 +1,5 @@
 import {User} from '../../domain'
-import {IDBClient} from "../../infrastructure/database/db_client"
+import {IDBClient} from "../../infrastructure/database/"
 
 export interface IUserRepository {
   insert(params: User): Promise<User>

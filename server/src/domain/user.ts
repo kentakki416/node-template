@@ -8,6 +8,10 @@ export class User {
     if (!name) {
       throw new Error('User name is required');
     }
+    if (name.length > 10) {
+      throw new Error('User name is limit 10 character')
+    }
+    
     this._id = Math.floor(Math.random() * Math.floor(1000));
     this._name = name;
     this._created_at = Date.now();
