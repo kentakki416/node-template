@@ -13,4 +13,4 @@ const schema = new Schema<User>({
   }
 }, {timestamps: true})
 
-export const UserStore = model<User>('User', schema)
+export const UserModel = model<User>('User', schema)

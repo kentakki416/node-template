@@ -1,7 +1,8 @@
 import { Express, Router} from 'express'
-// import {Controllers} from '../adapter/controller'
+import { UserController } from '../adapter/controller/'
+import { MongoClient } from './database/mongo/client'
 
-export default class ExpressServerRouter {
+export class ExpressServerRouter {
   private app: Express
   constructor(app: Express) {
     this.app = app
@@ -9,13 +10,18 @@ export default class ExpressServerRouter {
 
   public routing(/**controllers: Controllers*/) {
     const router = Router()
-
+    const repo = new MongoClient()
+    const userController = new UserController(repo)
     router.get('/', (_, res, next) => {
        res.send('Hello World')
        next()
     })
 
-    // TODO: APIが増えたらここに追加する
+
+    router.post('/users', async (req, res): Promise<void> => {
+      const result = await userController.createUser(req.body)
+      res.send(result)
+    })
     
     this.app.use(router)
   }
