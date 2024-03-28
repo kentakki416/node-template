@@ -1,16 +1,11 @@
-import {model, Schema} from 'mongoose'
+import { model, Schema } from "mongoose"
+import type { UserCollection } from "../../../../types/db"
 
-interface User {
-  _id: string,
-  name: string,
-}
-
-const schema = new Schema<User>({
-  _id: {type: String},
+const schema = new Schema<UserCollection>({
   name: {
     type: String,
     required: [true, "name should not be empty!"],
   }
-}, {timestamps: true})
+}, { timestamps: true })
 
-export const UserModel = model<User>('User', schema)
+export const UserModel = model<UserCollection>("User", schema)

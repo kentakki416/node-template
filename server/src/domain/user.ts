@@ -6,10 +6,10 @@ export class User {
 
   constructor(name: string) {
     if (!name) {
-      throw new Error('User name is required');
+      throw new Error("User name is required");
     }
     if (name.length > 10) {
-      throw new Error('User name is limit 10 character')
+      throw new Error("User name is limit 10 character")
     }
     
     this._id = Math.floor(Math.random() * Math.floor(1000));

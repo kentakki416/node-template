@@ -1,9 +1,10 @@
-import {User} from '../../domain'
-import {IDBClient} from "../../infrastructure/database/"
+import { User } from "../../domain"
+import { IDBClient } from "../../infrastructure/database/"
+import type { UserCollection } from "../../types/db"
 
 export interface IUserRepository {
-  insert(params: User): Promise<User>
-  findOne(id: number): Promise<any>
+  insert(params: User): Promise<UserCollection>
+  findOne(id: number): Promise<UserCollection | null>
 }
 
 export class UserRepository implements IUserRepository {
@@ -12,16 +13,16 @@ export class UserRepository implements IUserRepository {
 
   public constructor(store: IDBClient) {
     this.store = store
-    this.modelName = 'User'
+    this.modelName = "User"
   }
 
-  public async insert(params: User): Promise<User> {
-    const res = await this.store.insert(this.modelName, params) as User
+  public async insert(params: User): Promise<UserCollection> {
+    const res = await this.store.insert(this.modelName, params)
     return res
   }
 
-  public async findOne(id: number): Promise<User> {
-    const res = await this.store.findOne(this.modelName, id) as User
+  public async findOne(id: number): Promise<UserCollection | null> {
+    const res = await this.store.findOne(this.modelName, id)
     return res
   }
 }

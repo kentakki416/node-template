@@ -1,6 +1,6 @@
-import { BaseSerialize, Response } from '../base_serialize'
-import { User } from '../../../domain'
-import CONSTANT from '../../../constant'
+import { BaseSerialize, Response } from "../"
+import { User } from "../../../domain"
+import CONSTANT from "../../../constant"
 
 export interface UserResponseData {
   id: number
@@ -12,7 +12,7 @@ export class UserSerialize extends BaseSerialize {
     if (!data) {
       return {
         code: CONSTANT.STATUS_CODE.SERVER_ERROR,
-        message: 'data is null',
+        message: "data is null",
         responsedAt: new Date(),
       }
     }
@@ -31,7 +31,7 @@ export class UserSerialize extends BaseSerialize {
     if (!data) {
       return {
         code: CONSTANT.STATUS_CODE.NOT_FOUND,
-        message: 'user is not found',
+        message: "user is not found",
         responsedAt: new Date(),
       }
     }

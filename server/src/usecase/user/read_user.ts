@@ -1,5 +1,5 @@
-import { IUserRepository } from '../../adapter/repository/user_repository';
-import type { User } from '../../domain';
+import { IUserRepository } from "../../adapter/repository/user_repository";
+import { User } from "../../domain";
 
 export type RequestReadUser = {
   id: number
@@ -12,7 +12,9 @@ export class ReadUserUsecase {
     this.userRepo = userRepo
   }
 
-  public execute(req: RequestReadUser): Promise<User> {
-    return this.userRepo.findOne(req.id)
+  public async execute(req: RequestReadUser): Promise<User> {
+    const res = await this.userRepo.findOne(req.id)
+    const user = new User(res.name)
+    return user
   }
 }
