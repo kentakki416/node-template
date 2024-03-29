@@ -14,7 +14,7 @@ export class ReadUserUsecase {
 
   public async execute(req: RequestReadUser): Promise<User> {
     const res = await this.userRepo.findOne(req.id)
-    const user = new User(res.name)
+    const user = new User(res!.name)
     return user
   }
 }
