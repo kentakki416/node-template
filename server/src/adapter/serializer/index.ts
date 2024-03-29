@@ -16,7 +16,7 @@ export type Response<T> = {
 }
 
 export class BaseSerialize {
-  public error(error: Error): Response<{}> {
+  public error(error: Error): Response<object> {
     try {
       const err = JSON.parse(error.message)
       return {
