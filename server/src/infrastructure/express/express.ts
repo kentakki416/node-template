@@ -17,6 +17,6 @@ export class ExpressServer {
     new ExpressServerRouter(this.app).routing()
 
     this.app.listen(this.port)
-    console.debug("express server runnning ...")
+    // console.debug("express server runnning ...")
   }
 }

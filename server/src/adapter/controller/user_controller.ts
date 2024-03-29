@@ -13,13 +13,13 @@ export class UserController {
     this.userRepo = new UserRepository(db)
   }
 
-  public async createUser(body: RequestCreateUser): Promise<Response<UserResponseData>| Response<{}>> {
+  public async createUser(body: RequestCreateUser): Promise<Response<UserResponseData>| Response<object>> {
     try {
       const useCase = new CreateUserUsecase(this.userRepo)
       const res = await useCase.execute(body)
       return this.userSelialize.create(res)
     } catch (err) {
-      console.log(err)
+      // console.log(err)
       return this.userSelialize.error(err as Error)  
     }
   }
@@ -30,7 +30,7 @@ export class UserController {
       const res = await useCase.execute(body)
       return this.userSelialize.findOne(res)
     } catch (err) {
-      console.log(err)
+      // console.log(err)
       return this.userSelialize.error(err as Error)
     }
   }

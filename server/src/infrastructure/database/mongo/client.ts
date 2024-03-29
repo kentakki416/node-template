@@ -20,18 +20,18 @@ export class MongoClient implements IDBClient {
   public async connect(): Promise<void> {
     try {
       await mongoose.connect("mongodb://localhost:27017/my_database")
-      console.log("MongoDB is connected!!!!")
+      // console.log("MongoDB is connected!!!!")
     } catch (err) {
-      console.log(err)
+      // console.log(err)
     }
   }
 
   public async disconnect(): Promise<void> {
     try {
       await mongoose.disconnect()
-      console.log("MongoDB is connected!!!!")
+      // console.log("MongoDB is connected!!!!")
     } catch (err) {
-      console.log(err)
+      // console.log(err)
     }
   }
 
