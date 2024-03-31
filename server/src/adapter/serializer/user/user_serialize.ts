@@ -1,4 +1,4 @@
-import { BaseSerialize, Response } from "../"
+import { BaseSerialize, Response } from "../base_serialize"
 import { User } from "../../../domain"
 import CONSTANT from "../../../constant"
 
