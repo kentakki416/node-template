@@ -1,7 +1,8 @@
-import mongoose, { Model } from "mongoose"
-import { IDBClient } from "../"
-import { UserModel } from "./models"
-import type { Collections } from "../../../types/db"
+import mongoose, { Model } from 'mongoose'
+
+import { UserModel } from './models'
+import { IDBClient } from '../'
+import type { Collections } from '../../../types/db'
 
 
 type ModelMap = {
@@ -19,7 +20,7 @@ export class MongoClient implements IDBClient {
   
   public async connect(): Promise<void> {
     try {
-      await mongoose.connect("mongodb://localhost:27017/my_database")
+      await mongoose.connect('mongodb://localhost:27017/my_database')
       // console.log("MongoDB is connected!!!!")
     } catch (err) {
       // console.log(err)
@@ -36,18 +37,18 @@ export class MongoClient implements IDBClient {
   }
 
   public async insert<T extends keyof ModelMap>(modelName: T, params: Collections[T]): Promise<Collections[T]> {
-    const model = this.models[modelName];
+    const model = this.models[modelName]
     if (!model) {
       throw new Error(`Model ${modelName} is not found`)
     }
-    return await model.create(params);
+    return await model.create(params)
   }
 
   public async findOne<T extends keyof ModelMap>(modelName: T, id: number): Promise<Collections[T]|null> {
-    const model = this.models[modelName];
+    const model = this.models[modelName]
     if (!model) {
       throw new Error(`Model ${modelName} is not found`)
     }
-    return await model.findById(id).exec();
+    return await model.findById(id).exec()
   }
 }

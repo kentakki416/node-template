@@ -13,7 +13,8 @@
         "sourceType": "module"
     },
     "plugins": [
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "import"
     ],
     "rules": {
         "no-console": "error",
@@ -23,14 +24,51 @@
                 "properties": "never"
             }
         ],
+        "semi": [
+            "error",
+            "never"
+        ],
         "quotes": [
             "error",
-            "double"
+            "single"
         ],
         "object-curly-spacing": [
             "error",
             "always"
         ],
-        "@typescript-eslint/type-annotation-spacing": "error"
+        "@typescript-eslint/type-annotation-spacing": "error",
+        "@typescript-eslint/explicit-function-return-type": "warn",
+        "import/order": [
+            "error",
+            {
+                "groups": [
+                    "external",
+                    "builtin",
+                    [
+                        "parent",
+                        "sibling",
+                        "index"
+                    ]
+                ],
+                "pathGroups": [
+                    {
+                        "pattern": "../*",
+                        "group": "parent"
+                    },
+                    {
+                        "pattern": "./*",
+                        "group": "sibling"
+                    },
+                    {
+                        "pattern": "*",
+                        "group": "index"
+                    }
+                ],
+                "newlines-between": "always",
+                "alphabetize": {
+                    "order": "asc"
+                }
+            }
+        ]
     }
 }

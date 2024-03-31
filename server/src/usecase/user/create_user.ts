@@ -1,5 +1,5 @@
-import { User } from "../../domain"
-import { IUserRepository } from "../../adapter/repository/user_repository"
+import { IUserRepository } from '../../adapter/repository/user_repository'
+import { User } from '../../domain'
 
 export type RequestCreateUser = {
   name: string,

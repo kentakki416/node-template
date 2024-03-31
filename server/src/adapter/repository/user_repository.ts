@@ -1,6 +1,6 @@
-import { User } from "../../domain"
-import { IDBClient } from "../../infrastructure/database/"
-import type { UserCollection } from "../../types/db"
+import { User } from '../../domain'
+import { IDBClient } from '../../infrastructure/database/'
+import type { UserCollection } from '../../types/db'
 
 export interface IUserRepository {
   insert(params: User): Promise<UserCollection>
@@ -13,7 +13,7 @@ export class UserRepository implements IUserRepository {
 
   public constructor(store: IDBClient) {
     this.store = store
-    this.modelName = "User"
+    this.modelName = 'User'
   }
 
   public async insert(params: User): Promise<UserCollection> {

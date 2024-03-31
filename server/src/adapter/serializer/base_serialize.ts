@@ -1,4 +1,4 @@
-import CONSTANT from "../../constant"
+import CONSTANT from '../../constant'
 
 export type Response<T> = {
   code: typeof CONSTANT.STATUS_CODE.SUCCESS
@@ -25,7 +25,7 @@ export class BaseSerialize {
     } catch {
       return {
         code: CONSTANT.STATUS_CODE.SERVER_ERROR,
-        message: "err boj parse error",
+        message: 'err boj parse error',
         responsedAt: new Date()
       }
     }

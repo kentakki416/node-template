@@ -7,19 +7,19 @@ export class Logger {
     const option = {
       level: process.env.PINO_LOG_LEVEL || 'info',
       formatters: {
-        level: (label: string) => {
-          return { level: label.toUpperCase() };
+        level: (label: string): {level: string} => {
+          return { level: label.toUpperCase() }
         },
       },
       timestamp: pino.stdTimeFunctions.isoTime,
     }
 
-    let targets = [];
+    const targets = []
 
     if (process.env.NODE_ENV === 'dev') {
       targets.push({
         target: 'pino-pretty',
-      });
+      })
     } else if (process.env.NODE_ENV === 'prd') {
       targets.push({
         level: 'error',
@@ -28,10 +28,10 @@ export class Logger {
       },
       {
         target: 'pino/file', // logs to the standard output by default
-      });
+      })
     }
     
-    const transport = pino.transport({ targets });
+    const transport = pino.transport({ targets })
     this._logger = pino(option, transport)
     this._logger = pino({
       transport: {
@@ -41,7 +41,7 @@ export class Logger {
   }
 
   public getLogger() {
-    return this._logger;
+    return this._logger
   }
 
   public debug(message: string): void {

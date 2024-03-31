@@ -1,6 +1,7 @@
-import { Express, Router } from "express"
-import { UserController } from "../../adapter/controller"
-import { MongoClient } from "../database/mongo/client"
+import { Express, Router } from 'express'
+
+import { UserController } from '../../adapter/controller'
+import { MongoClient } from '../database/mongo/client'
 
 export class ExpressServerRouter {
   private app: Express
@@ -8,22 +9,22 @@ export class ExpressServerRouter {
     this.app = app
   }
 
-  public routing(/**controllers: Controllers*/) {
+  public routing(/**controllers: Controllers*/): void {
     const router = Router()
     const repo = new MongoClient()
     const userController = new UserController(repo)
     
-    router.get("/", (_, res, next) => {
-       res.send("Hello World")
+    router.get('/', (_, res, next) => {
+       res.send('Hello World')
        next()
     })
 
-    router.get("/user", async (req, res): Promise<void> => {
+    router.get('/user', async (req, res): Promise<void> => {
       const result = await userController.findOne(req.body)
       res.send(result)
     })
 
-    router.post("/users", async (req, res): Promise<void> => {
+    router.post('/users', async (req, res): Promise<void> => {
       const result = await userController.createUser(req.body)
       res.send(result)
     })
