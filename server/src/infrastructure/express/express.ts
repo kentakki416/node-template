@@ -1,9 +1,12 @@
 import * as express from "express"
 import { ExpressServerRouter } from "./route"
+import pinoHttp from "pino-http"
+import {Logger} from '../logger'
 
 export class ExpressServer {
   private app = express()
   private port: number
+  private logger = new Logger()
 
   constructor(port = 8080) {
     this.port = port
@@ -14,9 +17,10 @@ export class ExpressServer {
     this.app.use(express.json()) // JSON形式に対応
     this.app.use(express.urlencoded({ extended: true })) // HTMLフォームの「キー=値」形式に対応
 
+    this.app.use(pinoHttp({logger: this.logger.getLogger()}));
     new ExpressServerRouter(this.app).routing()
 
     this.app.listen(this.port)
-    // console.debug("express server runnning ...")
+   this.logger.debug("express server runnning ...")
   }
 }
