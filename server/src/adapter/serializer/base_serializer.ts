@@ -13,7 +13,7 @@ export type Response<T> = {
   responsedAt: Date
 }
 
-export class BaseSerialize {
+export class BaseSerializer {
   public error(error: Error): Response<object> {
     try {
       const err = JSON.parse(error.message)

@@ -1,13 +1,13 @@
 import CONSTANT from '../../../constant'
 import { User } from '../../../domain'
-import { BaseSerialize, Response } from '../base_serialize'
+import { BaseSerializer, Response } from '../base_serializer'
 
 export interface UserResponseData {
   id: number
   name: string
 }
 
-export class UserSerialize extends BaseSerialize {
+export class UserSerializer extends BaseSerializer {
   public create(data: User): Response<UserResponseData> {
     if (!data) {
       return {
@@ -27,7 +27,7 @@ export class UserSerialize extends BaseSerialize {
     }
   }
 
-  public findOne(data: User): Response<UserResponseData> {
+  public findOne(data: User| null): Response<UserResponseData> {
     if (!data) {
       return {
         code: CONSTANT.STATUS_CODE.NOT_FOUND,
