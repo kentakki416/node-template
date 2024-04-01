@@ -21,6 +21,21 @@ COPY . .
 RUN npm run build
 CMD ["npm", "run", "test"]
 
+## 開発環境
+FROM node:20-alpine3.17 as dev
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+RUN apk add --no-cache tini
+ENTRYPOINT ["/sbin/tini", "--"]
+USER node
+EXPOSE 8080
+ENV NODE_ENV dev
+
+CMD ["node", "dist/index", "--max-old-space-size=500"]
+
 ## ランタイム環境
 FROM node:20-alpine3.17 as runtime
 WORKDIR /app
@@ -30,6 +45,6 @@ RUN apk add --no-cache tini
 ENTRYPOINT ["/sbin/tini", "--"]
 USER node
 EXPOSE 8080
-ENV NODE_ENV production
+ENV NODE_ENV prod
 
 CMD ["node", "dist/index", "--max-old-space-size=500"]

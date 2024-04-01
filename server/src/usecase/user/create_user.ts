@@ -1,5 +1,5 @@
-import { User } from "../../domain"
-import { IUserRepository } from "../../adapter/repository/user_repository"
+import { IUserRepository } from '../../adapter/repository/user_repository'
+import { User } from '../../domain'
 
 export type RequestCreateUser = {
   name: string,
@@ -13,9 +13,13 @@ export class CreateUserUsecase {
   }
 
   public async execute(req: RequestCreateUser): Promise<User> {
-    const user = new User(req.name)
-    const res = await this.userRepo.insert(user)
-    const newUser = new User(res.name)
-    return newUser
+    try {
+      const user = new User(req.name)
+      const res = await this.userRepo.insert(user)
+      const newUser = new User(res.name)
+      return newUser  
+    } catch (err) {
+      throw new Error((err as Error).message)
+    }
   }
 }

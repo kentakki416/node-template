@@ -1,4 +1,4 @@
-import type { MongoDocuments } from "../../types/db"
+import type { MongoDocuments } from '../../types/db'
 
 export interface IDBClient {
   connect(): Promise<void>

@@ -1,8 +1,8 @@
-import { ExpressServer } from "./infrastructure/express/express"
+import { ExpressServer } from './infrastructure/express'
 
-(async () => {
+(async (): Promise<void> => {
   const port = 8080
   const server = new ExpressServer(port)
-  server.run()
+  await server.run()
 })()
 

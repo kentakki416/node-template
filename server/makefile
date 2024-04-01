@@ -4,21 +4,27 @@ IMAGE_NAME = runtime
 # Dockerコンテナの名前
 CONTAINER_NAME = my-app
 
+
+.PHONY: start
+start:
+	DOCKER_BUILDKIT=1 docker build -t ${IMAGE_NAME} . --target dev
+	docker run --memory 625m --name $(CONTAINER_NAME) -it -p 8080:8080 ${IMAGE_NAME}
+
 .PHONY: build
 build:
 	DOCKER_BUILDKIT=1 docker build -t $(IMAGE_NAME) .
 
 .PHONY: run
 run:
-	bash -c "docker run --memory 625m --name $(CONTAINER_NAME) -it -p 8080:8080 $(IMAGE_NAME) "
+	docker run --memory 625m --name $(CONTAINER_NAME) -it -p 8080:8080 $(IMAGE_NAME)
 
 .PHONY: run-d
 run-d:
-	bash -c "docker run --name $(CONTAINER_NAME) -it -d -p 8080:8080 $(IMAGE_NAME)"
+	docker run --name $(CONTAINER_NAME) -it -d -p 8080:8080 $(IMAGE_NAME)
 
 .PHONY: exec
 exec:
-	bash -c "docker exec -it $(CONTAINER_NAME) sh "
+	docker exec -it $(CONTAINER_NAME) sh
 
 .PHONY: stop
 stop:
@@ -32,11 +38,6 @@ clean:
 .PHONY: removeAll
 removeAll:
 	docker image prune -a
-
-.PHONY: ci
-ci:
-	docker build -t $(IMAGE_NAME) .
-	docker run --name $(IMAGE_NAME) -p 8080:8080 -d $(IMAGE_NAME)
 
 .PHONY: history
 history:

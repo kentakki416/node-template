@@ -1,1 +1,1 @@
-export * from "./user_controller"
+export * from './user_controller'

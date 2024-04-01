@@ -1,37 +1,40 @@
-import { IDBClient } from "../../infrastructure/database";
-import { IUserRepository, UserRepository } from "../repository/user_repository";
-import { RequestCreateUser, CreateUserUsecase } from "../../usecase"
-import { UserSerialize, Response, UserResponseData } from "../serializer";
-import { ReadUserUsecase, RequestReadUser } from "../../usecase/user/";
+import { IDBClient } from '../../infrastructure/database'
+import type { ILogger } from '../../infrastructure/logger'
+import { RequestCreateUser, CreateUserUsecase } from '../../usecase'
+import { ReadUserUsecase, RequestReadUser } from '../../usecase/user/'
+import { IUserRepository, UserRepository } from '../repository/user_repository'
+import { UserSerializer, Response, UserResponseData } from '../serializer'
 
 export class UserController {
-  private userSelialize: UserSerialize
-  private userRepo: IUserRepository
+  private _selializer: UserSerializer
+  private _userRepo: IUserRepository
+  private _logger: ILogger
 
-  constructor(db: IDBClient) {
-    this.userSelialize = new UserSerialize()
-    this.userRepo = new UserRepository(db)
+  constructor(db: IDBClient, logger: ILogger) {
+    this._selializer = new UserSerializer()
+    this._userRepo = new UserRepository(db)
+    this._logger = logger
   }
 
   public async createUser(body: RequestCreateUser): Promise<Response<UserResponseData>| Response<object>> {
     try {
-      const useCase = new CreateUserUsecase(this.userRepo)
+      const useCase = new CreateUserUsecase(this._userRepo)
       const res = await useCase.execute(body)
-      return this.userSelialize.create(res)
+      return this._selializer.create(res)
     } catch (err) {
-      // console.log(err)
-      return this.userSelialize.error(err as Error)  
+      this._logger.error(err as Error)
+      return this._selializer.error(err as Error)  
     }
   }
 
-  public async findOne(body: RequestReadUser) {
+  public async findOne(body: RequestReadUser): Promise<Response<UserResponseData|null> | Response<object>> {
     try {
-      const useCase = new ReadUserUsecase(this.userRepo)
+      const useCase = new ReadUserUsecase(this._userRepo)
       const res = await useCase.execute(body)
-      return this.userSelialize.findOne(res)
+      return this._selializer.findOne(res)
     } catch (err) {
-      // console.log(err)
-      return this.userSelialize.error(err as Error)
+      this._logger.error(err as Error)
+      return this._selializer.error(err as Error)
     }
   }
 }

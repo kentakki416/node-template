@@ -1,53 +1,68 @@
-import mongoose, { Model } from "mongoose"
-import { IDBClient } from "../"
-import { UserModel } from "./models"
-import type { Collections } from "../../../types/db"
+import mongoose, { Model } from 'mongoose'
 
+import { UserModel } from './models'
+import { IDBClient } from '../'
+import type { Collections } from '../../../types/db'
+import type { ILogger } from '../../logger'
 
 type ModelMap = {
   [K in keyof Collections]: Model<Collections[K]>
 }
 
 export class MongoClient implements IDBClient {
-  private models: ModelMap
+  private _logger: ILogger
+  private _models: ModelMap
   
-  public constructor() {
-    this.models = {
+  public constructor(logger: ILogger) {
+    this._logger = logger
+    this._models = {
       User: UserModel,
     }
   }
   
   public async connect(): Promise<void> {
     try {
-      await mongoose.connect("mongodb://localhost:27017/my_database")
-      // console.log("MongoDB is connected!!!!")
+      await mongoose.connect('mongodb://localhost:27017/my_database')
+      this._logger.info('mongo client is connected!!!')
     } catch (err) {
-      // console.log(err)
+      this._logger.error(err as Error)
+      throw new Error((err as Error).message)
     }
   }
 
   public async disconnect(): Promise<void> {
     try {
       await mongoose.disconnect()
-      // console.log("MongoDB is connected!!!!")
+      this._logger.info('mongo client is disconnected!!!')
     } catch (err) {
-      // console.log(err)
+      this._logger.error(err as Error)
+      throw new Error((err as Error).message)
     }
   }
 
   public async insert<T extends keyof ModelMap>(modelName: T, params: Collections[T]): Promise<Collections[T]> {
-    const model = this.models[modelName];
-    if (!model) {
-      throw new Error(`Model ${modelName} is not found`)
+    try {
+      const model = this._models[modelName]
+      if (!model) {
+        throw new Error(`Model ${modelName} is not found`)
+      }
+      return await model.create(params)  
+    } catch (err) {
+      this._logger.error(err as Error)
+      throw new Error((err as Error).message)
     }
-    return await model.create(params);
   }
 
   public async findOne<T extends keyof ModelMap>(modelName: T, id: number): Promise<Collections[T]|null> {
-    const model = this.models[modelName];
-    if (!model) {
-      throw new Error(`Model ${modelName} is not found`)
+    try {
+      const model = this._models[modelName]
+      if (!model) {
+        throw new Error(`Model ${modelName} is not found`)
+      }
+      return await model.findById(id).exec()  
+    } catch (err) {
+      this._logger.error(err as Error)
+      throw new Error((err as Error).message) 
     }
-    return await model.findById(id).exec();
   }
 }
