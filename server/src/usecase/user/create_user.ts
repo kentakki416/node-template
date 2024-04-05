@@ -14,7 +14,8 @@ export class CreateUserUsecase {
 
   public async execute(req: RequestCreateUser): Promise<User> {
     try {
-      const user = new User(req.name)
+      const existUser = await this.userRepo.findOne({ name: req.name })
+      const user = new User(req.name, existUser?.name)
       const res = await this.userRepo.insert(user)
       const newUser = new User(res.name)
       return newUser  

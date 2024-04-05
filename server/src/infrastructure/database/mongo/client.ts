@@ -53,13 +53,26 @@ export class MongoClient implements IDBClient {
     }
   }
 
-  public async findOne<T extends keyof ModelMap>(modelName: T, id: number): Promise<Collections[T]|null> {
+  public async findById<T extends keyof ModelMap>(modelName: T, id: number): Promise<Collections[T]|null> {
     try {
       const model = this._models[modelName]
       if (!model) {
         throw new Error(`Model ${modelName} is not found`)
       }
       return await model.findById(id).exec()  
+    } catch (err) {
+      this._logger.error(err as Error)
+      throw new Error((err as Error).message) 
+    }
+  }
+
+  public async findOne<T extends keyof ModelMap>(modelName: T, projection: object): Promise<Collections[T]|null> {
+    try {
+      const model = this._models[modelName]
+      if (!model) {
+        throw new Error(`Model ${modelName} is not found`)
+      }
+      return await model.findOne(projection)
     } catch (err) {
       this._logger.error(err as Error)
       throw new Error((err as Error).message) 

@@ -4,7 +4,8 @@ import type { UserCollection } from '../../types/db'
 
 export interface IUserRepository {
   insert(params: User): Promise<UserCollection>
-  findOne(id: number): Promise<UserCollection | null>
+  findById(id: number): Promise<UserCollection | null>
+  findOne(projection: object): Promise<UserCollection | null>
 }
 
 export class UserRepository implements IUserRepository {
@@ -16,13 +17,18 @@ export class UserRepository implements IUserRepository {
     this.modelName = 'User'
   }
 
-  public async insert(params: User): Promise<UserCollection> {
+  public async insert(params: User) {
     const res = await this.store.insert(this.modelName, params)
     return res
   }
 
-  public async findOne(id: number): Promise<UserCollection | null> {
-    const res = await this.store.findOne(this.modelName, id)
+  public async findById(id: number) {
+    const res = await this.store.findById(this.modelName, id)
+    return res
+  }
+
+  public async findOne(projection: object) {
+    const res = await this.store.findOne(this.modelName, projection)
     return res
   }
 }

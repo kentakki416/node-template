@@ -47,7 +47,6 @@
             "always"
         ],
         "@typescript-eslint/type-annotation-spacing": "error",
-        "@typescript-eslint/explicit-function-return-type": "warn",
         "import/order": [
             "error",
             {
