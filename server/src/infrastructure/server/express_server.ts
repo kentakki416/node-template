@@ -2,7 +2,7 @@ import * as express from 'express'
 import pinoHttp from 'pino-http'
 
 import { ExpressServerRouter } from './route'
-import { Logger } from '../logger'
+import { Logger } from '../log/i_logger'
 
 export class ExpressServer {
   private _app: express.Express

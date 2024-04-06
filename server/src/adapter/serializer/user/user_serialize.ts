@@ -1,7 +1,10 @@
 import CONSTANT from '../../../constant'
-import { User } from '../../../domain'
+import { User } from '../../../domain/entity/user'
 import { BaseSerializer, Response } from '../base_serializer'
 
+export interface IUserSerialize {
+  serialize(data: User): Response<UserResponseData>
+}
 export interface UserResponseData {
   id: number
   name: string

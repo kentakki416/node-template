@@ -5,9 +5,9 @@ export type Response<T> = {
   data: T
   responsedAt: Date
 } | {
-  code: 
-  | typeof CONSTANT.STATUS_CODE.BAD_REQUEST 
-  | typeof CONSTANT.STATUS_CODE.NOT_FOUND 
+  code:
+  | typeof CONSTANT.STATUS_CODE.BAD_REQUEST
+  | typeof CONSTANT.STATUS_CODE.NOT_FOUND
   | typeof CONSTANT.STATUS_CODE.SERVER_ERROR
   message: string
   responsedAt: Date

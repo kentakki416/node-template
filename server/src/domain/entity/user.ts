@@ -1,22 +1,14 @@
 export class User {
   private readonly _id: number
   private _name: string
-  private readonly _created_at: number
-  private _updated_at: number
 
-  constructor(name: string, existName?: string) {
-    if (UserBusinessRule.checkNameLength(name)) {
-      throw new Error('User name is required')
+  constructor(name: string) {
+    if (!UserBusinessRule.checkNameLength(name)) {
+      throw new Error('User name is invalid')
     }
 
-    if (UserBusinessRule.checkNameDuplicate(name, existName)) {
-      throw new Error('User name is Duplidate')
-    }
-    
     this._id = Math.floor(Math.random() * Math.floor(1000))
     this._name = name
-    this._created_at = Date.now()
-    this._updated_at = Date.now()
   }
 
   get id (): number {
@@ -25,14 +17,6 @@ export class User {
 
   get name (): string {
     return this._name
-  }
-
-  get created_at (): number {
-    return this._created_at
-  }
-
-  get updated_at (): number {
-    return this._updated_at
   }
 
   // private setName (name: string, exsitName?: string) {
@@ -46,18 +30,15 @@ export class User {
   // }
 }
 
+/**
+ * DomainServiceに追加のビジネスルールあり
+ * 1. 名前は一意でなけれなない
+ */
 export const UserBusinessRule = {
   /**
    * 名前は一文字以上、１０文字未満
    */
   checkNameLength(name: string) {
     return name.length > 0 && name.length < 10
-  },
-
-  /**
-   * 名前は一意でなければならない
-   */
-  checkNameDuplicate(name: string, exsitName?: string) {
-    return exsitName ? exsitName !== name : true
-  },
+  }
 }
