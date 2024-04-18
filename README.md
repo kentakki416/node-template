@@ -37,12 +37,13 @@ pip install huga_package
 
 # Usage
 
-DEMOの実行方法など、"hoge"の基本的な使い方を説明する
+サーバーの起動方法
 
 ```bash
-git clone https://github.com/hoge/~
-cd examples
-python demo.py
+git clone https://github.com/kentakki416/node-template.git
+cd server
+make build
+make start
 ```
 
 # Note
