@@ -35,7 +35,7 @@
     ],
     "types": [
       "node",
-      // "mocha"
+      "jest",
     ],
     "allowSyntheticDefaultImports": true,
     "preserveSymlinks": false,

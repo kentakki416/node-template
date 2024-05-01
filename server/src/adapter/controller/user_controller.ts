@@ -1,5 +1,5 @@
 import { IDBClient } from '../../infrastructure/database'
-import type { ILogger } from '../../infrastructure/logger'
+import type { ILogger } from '../../infrastructure/log/i_logger'
 import { RequestCreateUser, CreateUserUsecase } from '../../usecase'
 import { ReadUserUsecase, RequestReadUser } from '../../usecase/user/'
 import { IUserRepository, UserRepository } from '../repository/user_repository'
@@ -23,7 +23,7 @@ export class UserController {
       return this._selializer.create(res)
     } catch (err) {
       this._logger.error(err as Error)
-      return this._selializer.error(err as Error)  
+      return this._selializer.error(err as Error)
     }
   }
 

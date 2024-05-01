@@ -1,23 +1,26 @@
 import { IUserRepository } from '../../adapter/repository/user_repository'
-import { User } from '../../domain'
+import { User } from '../../domain/entity/user'
+import { UserDomainService } from '../../domain/service/user/check_name_duplicate'
 
 export type RequestCreateUser = {
   name: string,
 }
 
 export class CreateUserUsecase {
-  private userRepo: IUserRepository
+  private _userRepo: IUserRepository
 
   constructor(userRepo: IUserRepository) {
-    this.userRepo = userRepo
+    this._userRepo = userRepo
   }
 
-  public async execute(req: RequestCreateUser): Promise<User> {
+  public async execute(req: RequestCreateUser): Promise<void> {
     try {
+      const isDuplicateName = await new UserDomainService(this._userRepo).isDupicateName(req.name)
+      if (isDuplicateName) {
+        throw new Error('User name is Duplicate')
+      }
       const user = new User(req.name)
-      const res = await this.userRepo.insert(user)
-      const newUser = new User(res.name)
-      return newUser  
+      await this._userRepo.save(user)
     } catch (err) {
       throw new Error((err as Error).message)
     }

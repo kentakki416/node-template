@@ -17,11 +17,12 @@
         "import"
     ],
     "rules": {
-        "no-console": "error",
+        "no-console": "warn",
         "indent": [
             "error",
             2
         ],
+        "no-trailing-spaces": "error",
         "no-multiple-empty-lines": [
             "error",
             {
@@ -47,7 +48,6 @@
             "always"
         ],
         "@typescript-eslint/type-annotation-spacing": "error",
-        "@typescript-eslint/explicit-function-return-type": "warn",
         "import/order": [
             "error",
             {
