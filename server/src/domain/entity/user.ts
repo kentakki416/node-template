@@ -36,9 +36,9 @@ export class User {
  */
 export const UserBusinessRule = {
   /**
-   * 名前は一文字以上、１０文字未満
+   * 名前は一文字以上、2０文字未満
    */
   checkNameLength(name: string) {
-    return name.length > 0 && name.length < 10
+    return name.length > 0 && name.length < 20
   }
 }

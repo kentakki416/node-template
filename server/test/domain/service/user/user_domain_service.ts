@@ -31,7 +31,7 @@ describe(__filename, () => {
     await repository.save(user)
 
     const result = await domainService.isDupicateName(name)
-    expect(result).toBeFalsy()
+    expect(result).toBeTruthy()
   })
 
   test('ユーザー名に重複がない場合、falseを返す', async () => {
@@ -41,6 +41,6 @@ describe(__filename, () => {
     await repository.save(user)
     const newName = 'Taro'
     const result = await domainService.isDupicateName(newName)
-    expect(result).toBeTruthy()
+    expect(result).toBeFalsy()
   })
 })

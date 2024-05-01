@@ -18,15 +18,14 @@ export class MongoUserRepository implements IUserRepository {
     }
   }
 
-  // async update(user: User) {
-  //   try {
-  //     // console.log(user)
-  //     await UserModel.updateOne()
-  //   } catch (err) {
-  //     this._logger.error(err as Error)
-  //     throw new Error((err as Error).message)
-  //   }
-  // }
+  async update(user: User) {
+    try {
+      await UserModel.updateOne()
+    } catch (err) {
+      this._logger.error(err as Error)
+      throw new Error((err as Error).message)
+    }
+  }
 
   async findById(id: User['id']) {
     try {

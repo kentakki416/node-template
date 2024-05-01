@@ -1,5 +1,5 @@
 import { IUserRepository } from '../../adapter/repository/user_repository'
-import { User } from '../../domain/entity'
+import { User } from '../../domain/entity/user'
 
 export type RequestReadUser = {
   id: number
