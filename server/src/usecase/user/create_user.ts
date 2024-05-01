@@ -17,7 +17,7 @@ export class CreateUserUsecase {
     try {
       const isDuplicateName = await new UserDomainService(this._userRepo).isDupicateName(req.name)
       if (isDuplicateName) {
-        throw new Error(`User name (${req.name})is Duplicate`)
+        throw new Error(`User name (${req.name}) is Duplicate`)
       }
       const user = new User(req.name)
       await this._userRepo.save(user)

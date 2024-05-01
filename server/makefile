@@ -1,5 +1,5 @@
 # ビルドするDockerイメージの名前
-IMAGE_NAME = runtime
+IMAGE_NAME = dev
 
 # Dockerコンテナの名前
 CONTAINER_NAME = my-app
