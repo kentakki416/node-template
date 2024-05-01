@@ -1,8 +1,9 @@
 import { Express, Router } from 'express'
 
 import { UserController } from '../../adapter/controller/user_controller'
-import { MongoClient } from '../database/mongo/client'
+import { MongoManager } from '../database/mongo/client'
 import type { ILogger } from '../log/i_logger'
+import { MongoUserRepository } from '../database/mongo/repository/user_repository'
 
 export class ExpressServerRouter {
   private _app: Express
@@ -15,10 +16,12 @@ export class ExpressServerRouter {
   public routing(): void {
 
     const router = Router()
-    const db = new MongoClient(this._logger)
+    const mongoManager = new MongoManager(this._logger)
+    const db = mongoManager.getDb('test')
+    const userRepo = new MongoUserRepository(db, this._logger)
     // TODO: APIを全て書くと肥大化するのでControllerのファイルごとにrouterを作成するようにする
 
-    const userController = new UserController(db, this._logger)
+    const userController = new UserController(userRepo, this._logger)
 
     router.get('/', (req, res, next) => {
       req.log.info('Hello World がログに出力されましたよ')
@@ -27,6 +30,7 @@ export class ExpressServerRouter {
     })
 
     router.get('/user', async (req, res): Promise<void> => {
+      const userRepository = MongoUserRepository
       const result = await userController.findOne(req.body)
       res.send(result)
     })

@@ -1,17 +1,22 @@
+import { ObjectId, type Collection, type Db, type Document } from 'mongodb'
 import type { IUserRepository } from '../../../../adapter/repository/user_repository'
 import { User } from '../../../../domain/entity/user'
 import type { ILogger } from '../../../log/i_logger'
-import { UserModel } from '../models/user'
 
 export class MongoUserRepository implements IUserRepository {
-  private _logger
-  constructor(logger: ILogger) {
+  private _collection: Collection<Document>
+  private _logger: ILogger
+  constructor(db: Db, logger: ILogger) {
+    this._collection = db.collection('user')
     this._logger = logger
   }
 
   async save(user: User) {
     try {
-      await UserModel.create(user)
+      await this._collection.insertOne({
+        name: user.name
+        
+      })
     } catch(err) {
       this._logger.error(err as Error)
       throw new Error((err as Error).message)
@@ -20,16 +25,17 @@ export class MongoUserRepository implements IUserRepository {
 
   async update(user: User) {
     try {
-      await UserModel.updateOne()
+      // TODO 対応必要
+      await this._collection.updateOne({_id: ObjectId}, {$set: user})
     } catch (err) {
       this._logger.error(err as Error)
       throw new Error((err as Error).message)
     }
   }
 
-  async findById(id: User['id']) {
+  async findById(id: ObjectId) {
     try {
-      const data = await UserModel.findById(id)
+      const data = await this._collection.findOne({_id: id})
       if (!data || Object.keys(data).length === 0) {
         return null
       }
@@ -42,7 +48,7 @@ export class MongoUserRepository implements IUserRepository {
 
   async findOne(name: User['name']) {
     try {
-      const data = await UserModel.findOne({ name: name })
+      const data = await this._collection.findOne({ name: name })
       if (!data || Object.keys(data).length === 0) {
         return null
       }

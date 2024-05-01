@@ -20,7 +20,8 @@ export class Logger implements ILogger {
         return { level: label.toUpperCase() }
       },
     }
-    this._logger = pino(option).child({ formatters })
+    // インスタンス化
+    this._logger = pino(option).child({ formatters }) 
   }
 
   private _getTargets() {

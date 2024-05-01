@@ -16,7 +16,7 @@ describe(__filename, () => {
     const existUser = new User(testCase.name)
     await repository.save(existUser)
 
-    await expect(usecase.execute(testCase)).rejects.toThrow('User name is Duplicate')
+    await expect(usecase.execute(testCase)).rejects.toThrow('User name (DuplicateName) is Duplicate')
   })
 
   test('ユーザー名の重複がない場合、ユーザーを登録できる', async () => {
