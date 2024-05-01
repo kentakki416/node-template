@@ -1,12 +1,6 @@
 import pino from 'pino'
 
-export interface ILogger {
-  getLogger(): pino.Logger;
-  debug(message: string): void;
-  info(message: string): void;
-  warn(message: string): void;
-  error(err: Error): void;
-}
+import type { ILogger } from './i_logger'
 
 export class Logger implements ILogger {
   private _logger: pino.Logger

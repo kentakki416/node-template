@@ -1,5 +1,5 @@
 import { IUserRepository } from '../../adapter/repository/user_repository'
-import { User } from '../../domain'
+import { User } from '../../domain/entity/user'
 
 export type RequestReadUser = {
   id: number
@@ -14,12 +14,12 @@ export class ReadUserUsecase {
 
   public async execute(req: RequestReadUser): Promise<User|null> {
     try {
-      const res = await this.userRepo.findOne(req.id)
+      const res = await this.userRepo.findById(req.id)
       if (!res) {
         return null
       }
       const user = new User(res.name)
-      return user  
+      return user
     } catch (err) {
       throw new Error((err as Error).message)
     }
