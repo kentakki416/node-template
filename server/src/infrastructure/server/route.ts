@@ -1,9 +1,13 @@
 import { Express, Router } from 'express'
 
-import { UserController } from '../../adapter/controller/user_controller'
+import { UserReadController } from '../../adapter/controller/user/user_read_controller'
 import { MongoManager } from '../database/mongo/client'
 import type { ILogger } from '../log/i_logger'
 import { MongoUserRepository } from '../database/mongo/repository/user_repository'
+import { CreateUserUsecase } from '../../usecase/user/create_user'
+import { ReadUserUsecase } from '../../usecase/user/find_user'
+import { UserCreateController } from '../../adapter/controller/user/user_create_controller'
+import { UserSerializer } from '../../adapter/serializer/user/user_serialize'
 
 export class ExpressServerRouter {
   private _app: Express
@@ -19,9 +23,6 @@ export class ExpressServerRouter {
     const mongoManager = new MongoManager(this._logger)
     const db = mongoManager.getDb('test')
     const userRepo = new MongoUserRepository(db, this._logger)
-    // TODO: APIを全て書くと肥大化するのでControllerのファイルごとにrouterを作成するようにする
-
-    const userController = new UserController(userRepo, this._logger)
 
     router.get('/', (req, res, next) => {
       req.log.info('Hello World がログに出力されましたよ')
@@ -30,13 +31,17 @@ export class ExpressServerRouter {
     })
 
     router.get('/user', async (req, res): Promise<void> => {
-      const userRepository = MongoUserRepository
-      const result = await userController.findOne(req.body)
+      const usecase = new ReadUserUsecase(userRepo)
+      const userController = new UserReadController(usecase, this._logger)
+      const result = await userController.execute(req.body)
       res.send(result)
     })
 
     router.post('/users', async (req, res): Promise<void> => {
-      const result = await userController.createUser(req.body)
+      const selializer = new UserSerializer()
+      const usecase = new CreateUserUsecase(userRepo)
+      const userController = new UserCreateController(selializer, usecase, this._logger)
+      const result = await userController.execute(req.body)
       res.send(result)
     })
 
