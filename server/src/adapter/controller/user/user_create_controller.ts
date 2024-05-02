@@ -1,7 +1,7 @@
 import type { ILogger } from '../../../infrastructure/log/i_logger'
 import { RequestCreateUser, CreateUserUsecase } from '../../../usecase/user/create_user'
 import { Response } from '../../serializer/base_serializer'
-import { UserResponseData, UserSerializer } from '../../serializer/user/user_serialize'
+import { UserResponseData, UserSerializer } from '../../serializer/user/user_create_serializer'
 
 export class UserCreateController {
   private _selializer: UserSerializer

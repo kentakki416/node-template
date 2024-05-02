@@ -3,9 +3,9 @@ import { User } from '../../../../src/domain/entity/user'
 import { ConsoleLogger } from '../../../../src/infrastructure/log/console_logging'
 import type { ILogger } from '../../../../src/infrastructure/log/i_logger'
 import { RequestCreateUser, CreateUserUsecase } from '../../../../src/usecase/user/create_user'
-import { UserSerializer } from '../../../../src/adapter/serializer/user/user_serialize'
+import { UserCreateSerializer } from '../../../../src/adapter/serializer/user/user_create_serializer'
 import { InMemoryUserRepository } from '../../../../src/infrastructure/database/inMemory/user_repository'
-import type CONSTANT from '../../../../src/constant'
+import type CONSTANT from '../../../../constant'
 
 jest.mock('../../../../src/usecase/user/create_user')
 jest.mock('../../../../src/adapter/serializer/user/user_serialize')
@@ -15,14 +15,14 @@ describe(__filename, () => {
   let controller: UserCreateController
   let repo: InMemoryUserRepository
   let mockCreateuserUsecase: jest.Mocked<CreateUserUsecase>
-  let mockUserSerializer: jest.Mocked<UserSerializer>
+  let mockUserCreateSerializer: jest.Mocked<UserCreateSerializer>
 
   beforeEach(() => {
     logger = new ConsoleLogger()
     repo = new InMemoryUserRepository()
     mockCreateuserUsecase = new CreateUserUsecase(repo) as jest.Mocked<CreateUserUsecase>
-    mockUserSerializer = new UserSerializer() as jest.Mocked<UserSerializer>
-    controller = new UserCreateController(mockUserSerializer, mockCreateuserUsecase, logger)
+    mockUserCreateSerializer = new UserCreateSerializer() as jest.Mocked<UserCreateSerializer>
+    controller = new UserCreateController(mockUserCreateSerializer, mockCreateuserUsecase, logger)
   })
 
   afterEach(() => {
@@ -36,7 +36,7 @@ describe(__filename, () => {
     }
 
     mockCreateuserUsecase.execute.mockResolvedValue(mockUser)
-    mockUserSerializer.create.mockReturnValue({
+    mockUserCreateSerializer.execute.mockReturnValue({
       code: 200,
       data: {
         id: mockUser.id,
@@ -48,8 +48,8 @@ describe(__filename, () => {
     const result = await controller.execute(request)
 
     expect(mockCreateuserUsecase.execute).toHaveBeenCalledWith(request)
-    expect(mockUserSerializer.create).toHaveBeenCalledWith(mockUser)
-    expect(result).toEqual(mockUserSerializer.create(mockUser))
+    expect(mockUserCreateSerializer.execute).toHaveBeenCalledWith(mockUser)
+    expect(result).toEqual(mockUserCreateSerializer.execute(mockUser))
   })
 
   it('ユースケースでエラーが発生する', async() => {
@@ -64,12 +64,12 @@ describe(__filename, () => {
       responsedAt: new Date()
     }
     mockCreateuserUsecase.execute.mockRejectedValue(mockError)
-    mockUserSerializer.error.mockReturnValue(mockErrorResponse)
+    mockUserCreateSerializer.error.mockReturnValue(mockErrorResponse)
 
     const result = await controller.execute(request)
     
     expect(mockCreateuserUsecase.execute).toHaveBeenCalledWith(request)
-    expect(mockUserSerializer.error).toHaveBeenCalledWith(mockError)
+    expect(mockUserCreateSerializer.error).toHaveBeenCalledWith(mockError)
     expect(result).toEqual(mockErrorResponse)
   })
 })
