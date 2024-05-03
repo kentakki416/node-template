@@ -8,7 +8,7 @@ import { InMemoryUserRepository } from '../../../../src/infrastructure/database/
 import type CONSTANT from '../../../../constant'
 
 jest.mock('../../../../src/usecase/user/create_user')
-jest.mock('../../../../src/adapter/serializer/user/user_serialize')
+jest.mock('../../../../src/adapter/serializer/user/user_create_serializer')
 
 describe(__filename, () => {
   let logger: ILogger
