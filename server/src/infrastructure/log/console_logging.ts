@@ -3,7 +3,7 @@ import type { ILogger } from './i_logger'
 export class ConsoleLogger implements ILogger {
 
   debug(message: string): void {
-      console.debug(`DEBUG: ${message}`)
+    console.debug(`DEBUG: ${message}`)
   }
 
   info(message: string): void {
@@ -15,7 +15,7 @@ export class ConsoleLogger implements ILogger {
   }
 
   error(err: Error): void {
-      console.error(`ERROR: ${err.message}`)
+    console.error(`ERROR: ${err.message}`)
   }
 
 } 

@@ -18,16 +18,6 @@ export class User {
   get name (): string {
     return this._name
   }
-
-  // private setName (name: string, exsitName?: string) {
-  //   if (!UserBusinessRule.checkNameLength(name)) {
-  //     throw new Error('Invalid name Lenghth')
-  //   }
-  //   if (!UserBusinessRule.checkNameDuplicate(name, exsitName)) {
-  //     throw new Error('Invalid Duplicate name')
-  //   }
-  //   this._name = name
-  // }
 }
 
 /**

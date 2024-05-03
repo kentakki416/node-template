@@ -7,7 +7,7 @@ import { MongoUserRepository } from '../database/mongo/repository/user_repositor
 import { CreateUserUsecase } from '../../usecase/user/create_user'
 import { ReadUserUsecase } from '../../usecase/user/find_user'
 import { UserCreateController } from '../../adapter/controller/user/user_create_controller'
-import { UserSerializer } from '../../adapter/serializer/user/user_serialize'
+import { UserCreateSerializer } from '../../adapter/serializer/user/user_create_serializer'
 
 export class ExpressServerRouter {
   private _app: Express
@@ -38,7 +38,7 @@ export class ExpressServerRouter {
     })
 
     router.post('/users', async (req, res): Promise<void> => {
-      const selializer = new UserSerializer()
+      const selializer = new UserCreateSerializer()
       const usecase = new CreateUserUsecase(userRepo)
       const userController = new UserCreateController(selializer, usecase, this._logger)
       const result = await userController.execute(req.body)
