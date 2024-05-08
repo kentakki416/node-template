@@ -15,7 +15,6 @@ export class MongoUserRepository implements IUserRepository {
     try {
       await this._collection.insertOne({
         name: user.name
-        
       })
     } catch(err) {
       this._logger.error(err as Error)
@@ -56,6 +55,24 @@ export class MongoUserRepository implements IUserRepository {
     } catch (err) {
       this._logger.error(err as Error)
       throw new Error((err as Error).message)
+    }
+  }
+
+  async delete(name: User['name']) {
+    try {
+      await this._collection.deleteOne({name: name})
+    } catch (err) {
+      this._logger.error(err as Error)
+      throw new Error((err as Error).message)
+    }
+  }
+
+  async deleteAll() {
+    try {
+      await this._collection.deleteMany()
+    } catch (err) {
+      this._logger.error(err as Error)
+      throw new Error((err as Error).message)      
     }
   }
 }

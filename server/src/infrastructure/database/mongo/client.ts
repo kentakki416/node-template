@@ -5,11 +5,9 @@ import type { ILogger } from '../../log/i_logger'
 export class MongoManager {
   client: MongoClient
   private _logger: ILogger
-
   public constructor(logger: ILogger) {
-    this.client = new MongoClient('mongodb://localhost:27017/my_database')
+    this.client = new MongoClient(process.env.MONGODB_URI || 'mongodb://root:password@localhost:27017')
     this._logger = logger
-    this.connect()
   }
 
   public async connect(): Promise<void> {

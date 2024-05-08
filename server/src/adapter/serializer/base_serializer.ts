@@ -1,4 +1,4 @@
-import CONSTANT from '../../../constant'
+import CONSTANT from '../../constant'
 
 export type Response<T> = {
   code: typeof CONSTANT.STATUS_CODE.SUCCESS
