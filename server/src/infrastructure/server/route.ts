@@ -21,14 +21,23 @@ export class ExpressServerRouter {
 
     const router = Router()
     const mongoManager = new MongoManager(this._logger)
-    try {
-      await mongoManager.connect()
-    } catch (err) {
-      this._logger.error(err as Error)
-      process.exit(1)
+
+    const maxRetries = 5;
+    for (let i = 0; i < maxRetries; i++) {
+      try {
+        await mongoManager.connect();
+        this._logger.debug('MongoDB is connected!!!')
+        break; // 接続に成功したらリトライループを抜けます。
+      } catch (err) {
+        this._logger.error(err as Error);
+        if (i === maxRetries - 1) {
+          process.exit(1); // 最後のリトライでも接続に失敗した場合、プロセスを終了します。
+        }
+        await new Promise(resolve => setTimeout(resolve, 5000)); // 5秒待ってから次のリトライを行います。
+      }
     }
+
     const db = mongoManager.getDb(process.env.DB_NAME || 'test')
-    const userRepo = new MongoUserRepository(db, this._logger)
 
     router.get('/', (req, res, next) => {
       req.log.info('Hello World がログに出力されましたよ')
@@ -37,6 +46,7 @@ export class ExpressServerRouter {
     })
 
     router.get('/user', async (req, res): Promise<void> => {
+      const userRepo = new MongoUserRepository(db, this._logger)
       const usecase = new ReadUserUsecase(userRepo)
       const userController = new UserReadController(usecase, this._logger)
       const result = await userController.execute(req.body)
@@ -44,6 +54,7 @@ export class ExpressServerRouter {
     })
 
     router.post('/users', async (req, res): Promise<void> => {
+      const userRepo = new MongoUserRepository(db, this._logger)
       const selializer = new UserCreateSerializer()
       const usecase = new CreateUserUsecase(userRepo)
       const userController = new UserCreateController(selializer, usecase, this._logger)
