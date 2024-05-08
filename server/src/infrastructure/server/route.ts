@@ -17,11 +17,17 @@ export class ExpressServerRouter {
     this._logger = logger
   }
 
-  public routing(): void {
+  public async routing(): Promise<void> {
 
     const router = Router()
     const mongoManager = new MongoManager(this._logger)
-    const db = mongoManager.getDb('test')
+    try {
+      await mongoManager.connect()
+    } catch (err) {
+      this._logger.error(err as Error)
+      process.exit(1)
+    }
+    const db = mongoManager.getDb(process.env.DB_NAME || 'test')
     const userRepo = new MongoUserRepository(db, this._logger)
 
     router.get('/', (req, res, next) => {

@@ -7,7 +7,7 @@
     "build": "rm -rf dist && tsc -p tsconfig.build.json",
     "lint": "eslint --config .eslintrc.json .",
     "lint:fix": "eslint --config .eslintrc.json . --fix",
-    "test": "jest",
+    "test": "jest --detectOpenHandles",
     "test:coverage": "jest --converage",
     "test:watch": "jest --watch"
   },

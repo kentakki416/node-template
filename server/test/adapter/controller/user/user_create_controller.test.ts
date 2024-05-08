@@ -5,7 +5,7 @@ import type { ILogger } from '../../../../src/infrastructure/log/i_logger'
 import { RequestCreateUser, CreateUserUsecase } from '../../../../src/usecase/user/create_user'
 import { UserCreateSerializer } from '../../../../src/adapter/serializer/user/user_create_serializer'
 import { InMemoryUserRepository } from '../../../../src/infrastructure/database/inMemory/user_repository'
-import type CONSTANT from '../../../../constant'
+import type CONSTANT from '../../../../src/constant'
 
 jest.mock('../../../../src/usecase/user/create_user')
 jest.mock('../../../../src/adapter/serializer/user/user_create_serializer')

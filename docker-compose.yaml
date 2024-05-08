@@ -20,7 +20,7 @@ services:
     image: mongo
     restart: always #コンテナが何らかの理由で終了した場合、必ず再起動する
     ports:
-      - 8081:8081
+      - 27017:27017
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: password

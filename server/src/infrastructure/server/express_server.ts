@@ -22,7 +22,7 @@ export class ExpressServer {
 
     this._app.use(pinoHttp({ logger: this._logger.getLogger() })) // HTTPのロガー
 
-    new ExpressServerRouter(this._app, this._logger).routing()
+    await new ExpressServerRouter(this._app, this._logger).routing()
 
     this._app.listen(this._port)
     this._logger.debug('express server runnning ...')

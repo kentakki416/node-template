@@ -1,5 +1,7 @@
 # ビルドするDockerイメージの名前
-IMAGE_NAME = dev
+IMAGE_NAME = runtime
+
+TARGET = runtime
 
 # Dockerコンテナの名前
 CONTAINER_NAME = my-app
@@ -7,7 +9,7 @@ CONTAINER_NAME = my-app
 
 .PHONY: start
 start:
-	DOCKER_BUILDKIT=1 docker build -t ${IMAGE_NAME} . --target dev
+	DOCKER_BUILDKIT=1 docker build -t ${IMAGE_NAME} . --target ${TARGET}
 	docker run --memory 625m --name $(CONTAINER_NAME) -it -p 8080:8080 ${IMAGE_NAME}
 
 .PHONY: build

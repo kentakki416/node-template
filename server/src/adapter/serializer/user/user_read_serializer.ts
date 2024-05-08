@@ -1,4 +1,4 @@
-import CONSTANT from '../../../../constant'
+import CONSTANT from '../../../constant'
 import { User } from '../../../domain/entity/user'
 import { BaseSerializer, Response } from '../base_serializer'
 

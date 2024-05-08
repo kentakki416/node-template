@@ -1,4 +1,4 @@
-import CONSTANT from '../../../../constant'
+import CONSTANT from '../../../../src/constant'
 import { UserCreateSerializer } from '../../../../src/adapter/serializer/user/user_create_serializer'
 import { User } from '../../../../src/domain/entity/user'
 
