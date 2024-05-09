@@ -1,4 +1,5 @@
 import pino from 'pino'
+import * as moment from 'moment-timezone';
 
 import type { ILogger } from './i_logger'
 
@@ -10,7 +11,7 @@ export class Logger implements ILogger {
     const targets = this._getTargets()
     const option: pino.LoggerOptions = {
       level,
-      timestamp: pino.stdTimeFunctions.isoTime,
+      timestamp: () => `,"time":"${moment().tz('Asia/Tokyo').format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')}"`,
       transport: {
         targets
       }
