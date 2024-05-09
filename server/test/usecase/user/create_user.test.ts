@@ -1,6 +1,6 @@
 import { User } from '../../../src/domain/entity/user'
 import { InMemoryUserRepository } from '../../../src/infrastructure/database/inMemory/user_repository'
-import { CreateUserUsecase } from '../../../src/usecase/user/create_user'
+import { CreateUserUsecase, type RequestCreateUser } from '../../../src/usecase/user/create_user'
 
 describe(__filename, () => {
   let repository: InMemoryUserRepository
@@ -20,7 +20,7 @@ describe(__filename, () => {
   })
 
   test('ユーザー名の重複がない場合、ユーザーを登録できる', async () => {
-    const testCase = { name: 'UniqueName' }
+    const testCase:Required<RequestCreateUser> = { name: 'UniqueName' }
     await expect(usecase.execute(testCase)).resolves.not.toThrow()
     const savedUser = await repository.findOne(testCase.name)
     expect(savedUser).not.toBeNull()
