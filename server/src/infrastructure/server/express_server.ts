@@ -29,7 +29,7 @@ export class ExpressServer {
     await new ExpressServerRouter(this._app, this._db, this._logger).routing()
 
     this._server = this._app.listen(this._port)
-    this._logger.debug('express server runnning ...')
+    this._logger.info('express server runnning ...')
 
     process.on('SIGTERM', this.gracefulShutdown.bind(this));
     process.on('SIGINT', this.gracefulShutdown.bind(this));
@@ -37,12 +37,12 @@ export class ExpressServer {
 
 
   gracefulShutdown(): void {
-    this._logger.debug('Received kill signal, shutting down gracefully.');
+    this._logger.warn('Received kill signal, shutting down gracefully.');
     if (!this._server) {
       process.exit(1)
     }
     this._server.close(async (err: any) => {
-      this._logger.debug('Closed out remaining connections.');
+      this._logger.warn('Closed out remaining connections.');
       if (err) {
         console.error(err)
         process.exit(1)
