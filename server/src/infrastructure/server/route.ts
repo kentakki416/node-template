@@ -11,33 +11,18 @@ import { UserCreateSerializer } from '../../adapter/serializer/user/user_create_
 
 export class ExpressServerRouter {
   private _app: Express
+  private _db: MongoManager
   private _logger: ILogger
-  constructor(app: Express, logger: ILogger) {
+  constructor(app: Express, db: MongoManager, logger: ILogger) {
     this._app = app
+    this._db = db
     this._logger = logger
   }
 
   public async routing(): Promise<void> {
 
     const router = Router()
-    const mongoManager = new MongoManager(this._logger)
-
-    const maxRetries = 5;
-    for (let i = 0; i < maxRetries; i++) {
-      try {
-        await mongoManager.connect();
-        this._logger.debug('MongoDB is connected!!!')
-        break; // 接続に成功したらリトライループを抜けます。
-      } catch (err) {
-        this._logger.error(err as Error);
-        if (i === maxRetries - 1) {
-          process.exit(1); // 最後のリトライでも接続に失敗した場合、プロセスを終了します。
-        }
-        await new Promise(resolve => setTimeout(resolve, 5000)); // 5秒待ってから次のリトライを行います。
-      }
-    }
-
-    const db = mongoManager.getDb(process.env.DB_NAME || 'test')
+    const db = this._db.getDb(process.env.DB_NAME || 'test')
 
     router.get('/', (req, res, next) => {
       req.log.info('Hello World がログに出力されましたよ')
