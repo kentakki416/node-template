@@ -1,13 +1,13 @@
 import { Express, Router } from 'express'
 
+import { UserCreateController } from '../../adapter/controller/user/user_create_controller'
 import { UserReadController } from '../../adapter/controller/user/user_read_controller'
-import { MongoManager } from '../database/mongo/client'
-import type { ILogger } from '../log/i_logger'
-import { MongoUserRepository } from '../database/mongo/repository/user_repository'
+import { UserCreateSerializer } from '../../adapter/serializer/user/user_create_serializer'
 import { CreateUserUsecase } from '../../usecase/user/create_user'
 import { ReadUserUsecase } from '../../usecase/user/find_user'
-import { UserCreateController } from '../../adapter/controller/user/user_create_controller'
-import { UserCreateSerializer } from '../../adapter/serializer/user/user_create_serializer'
+import { MongoManager } from '../database/mongo/client'
+import { MongoUserRepository } from '../database/mongo/repository/user_repository'
+import type { ILogger } from '../log/i_logger'
 
 export class ExpressServerRouter {
   private _app: Express
@@ -38,7 +38,7 @@ export class ExpressServerRouter {
       res.send(result)
     })
 
-    router.post('/users', async (req, res): Promise<void> => {
+    router.post('/user', async (req, res): Promise<void> => {
       const userRepo = new MongoUserRepository(db, this._logger)
       const selializer = new UserCreateSerializer()
       const usecase = new CreateUserUsecase(userRepo)

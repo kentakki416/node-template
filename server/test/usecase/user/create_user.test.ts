@@ -20,7 +20,7 @@ describe(__filename, () => {
   })
 
   test('ユーザー名の重複がない場合、ユーザーを登録できる', async () => {
-    const testCase:Required<RequestCreateUser> = { name: 'UniqueName' }
+    const testCase: Required<RequestCreateUser> = { name: 'UniqueName' }
     await expect(usecase.execute(testCase)).resolves.not.toThrow()
     const savedUser = await repository.findOne(testCase.name)
     expect(savedUser).not.toBeNull()

@@ -1,5 +1,5 @@
-import CONSTANT from '../../../../src/constant'
 import { UserCreateSerializer } from '../../../../src/adapter/serializer/user/user_create_serializer'
+import CONSTANT from '../../../../src/constant'
 import { User } from '../../../../src/domain/entity/user'
 
 describe(__filename, () => {
@@ -10,7 +10,7 @@ describe(__filename, () => {
   })
 
   it('正常にレスポンスデータをリターンできる', () => {
-    expect.assertions(3);
+    expect.assertions(3)
     const user = new User('Test User')
     const response = userCreateSerializer.execute(user)
     if ('data' in response) {

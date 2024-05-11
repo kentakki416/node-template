@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import type { ILogger } from './i_logger'
 
 export class ConsoleLogger implements ILogger {
@@ -18,4 +19,4 @@ export class ConsoleLogger implements ILogger {
     console.error(`ERROR: ${err.message}`)
   }
 
-} 
+}

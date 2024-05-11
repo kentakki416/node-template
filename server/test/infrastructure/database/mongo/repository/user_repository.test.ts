@@ -1,9 +1,10 @@
-import { MongoUserRepository } from '../../../../../src/infrastructure/database/mongo/repository/user_repository'
-import type { ILogger } from '../../../../../src/infrastructure/log/i_logger'
-import { MongoManager } from '../../../../../src/infrastructure/database/mongo/client'
 import type { Db } from 'mongodb'
+
 import { User } from '../../../../../src/domain/entity/user'
+import { MongoManager } from '../../../../../src/infrastructure/database/mongo/client'
+import { MongoUserRepository } from '../../../../../src/infrastructure/database/mongo/repository/user_repository'
 import { ConsoleLogger } from '../../../../../src/infrastructure/log/console_logging'
+import type { ILogger } from '../../../../../src/infrastructure/log/i_logger'
 
 describe(__filename, () => {
   let mongoManager: MongoManager
@@ -44,7 +45,7 @@ describe(__filename, () => {
       }),
     }
     const userRepo = new MongoUserRepository(mockDb as Db, logger)
-    const user = new User('testUser') 
+    const user = new User('testUser')
     await expect(userRepo.save(user)).rejects.toThrow('DB connection error')
   })
 })

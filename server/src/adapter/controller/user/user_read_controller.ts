@@ -4,7 +4,6 @@ import { Response } from '../../serializer/base_serializer'
 import { UserResponseData } from '../../serializer/user/user_create_serializer'
 import { UserReadSerializer } from '../../serializer/user/user_read_serializer'
 
-
 export class UserReadController {
   private _selializer: UserReadSerializer
   private _userUsecase: ReadUserUsecase
