@@ -1,11 +1,11 @@
 import { UserCreateController } from '../../../../src/adapter/controller/user/user_create_controller'
+import { UserCreateSerializer } from '../../../../src/adapter/serializer/user/user_create_serializer'
+import type CONSTANT from '../../../../src/constant'
 import { User } from '../../../../src/domain/entity/user'
+import { InMemoryUserRepository } from '../../../../src/infrastructure/database/inMemory/user_repository'
 import { ConsoleLogger } from '../../../../src/infrastructure/log/console_logging'
 import type { ILogger } from '../../../../src/infrastructure/log/i_logger'
 import { RequestCreateUser, CreateUserUsecase } from '../../../../src/usecase/user/create_user'
-import { UserCreateSerializer } from '../../../../src/adapter/serializer/user/user_create_serializer'
-import { InMemoryUserRepository } from '../../../../src/infrastructure/database/inMemory/user_repository'
-import type CONSTANT from '../../../../src/constant'
 
 jest.mock('../../../../src/usecase/user/create_user')
 jest.mock('../../../../src/adapter/serializer/user/user_create_serializer')
@@ -67,7 +67,7 @@ describe(__filename, () => {
     mockUserCreateSerializer.error.mockReturnValue(mockErrorResponse)
 
     const result = await controller.execute(request)
-    
+
     expect(mockCreateuserUsecase.execute).toHaveBeenCalledWith(request)
     expect(mockUserCreateSerializer.error).toHaveBeenCalledWith(mockError)
     expect(result).toEqual(mockErrorResponse)

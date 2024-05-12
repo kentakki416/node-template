@@ -6,7 +6,7 @@ export class MongoManager {
   client: MongoClient
   private _logger: ILogger
   public constructor(logger: ILogger,) {
-    const mongoURI = process.env.NODE_ENV === 'dev'? 'mongodb://root:password@mongo:27017' : 'mongodb://root:password@localhost:27017';
+    const mongoURI = process.env.NODE_ENV === 'dev'? 'mongodb://root:password@mongo:27017' : 'mongodb://root:password@localhost:27017'
     this.client = new MongoClient(process.env.MONGODB_URI || mongoURI  )
     this._logger = logger
   }
@@ -26,7 +26,7 @@ export class MongoManager {
         }
         // ５秒間処理を停止する
         await new Promise(resolve => setTimeout(resolve, 5000))
-      }  
+      }
     }
   }
 

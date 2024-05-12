@@ -1,9 +1,9 @@
+import * as moment from 'moment-timezone'
 import pino from 'pino'
-import * as moment from 'moment-timezone';
 
 import type { ILogger } from './i_logger'
 
-export class Logger implements ILogger {
+export class PinoLogger implements ILogger {
   private _logger: pino.Logger
 
   constructor() {
@@ -22,7 +22,7 @@ export class Logger implements ILogger {
       },
     }
     // インスタンス化
-    this._logger = pino(option).child({ formatters }) 
+    this._logger = pino(option).child({ formatters })
   }
 
   private _getTargets() {

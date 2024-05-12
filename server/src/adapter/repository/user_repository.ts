@@ -1,4 +1,5 @@
 import type { ObjectId } from 'mongodb'
+
 import { User } from '../../domain/entity/user'
 
 export interface IUserRepository {
