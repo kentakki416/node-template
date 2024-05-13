@@ -1,23 +1,22 @@
 import * as express from 'express'
-import type pino from 'pino'
 import pinoHttp from 'pino-http'
 
 import * as http from 'http'
 
 import { ExpressServerRouter } from './route'
 import type { MongoManager } from '../database/mongo/client'
-import type { ILogger } from '../log/i_logger'
 import type { IHttpValidate } from '../middleware/http_validate_interface'
+import type { PinoLogger } from '../log/pino_logging'
 
 export class ExpressServer {
   private _app: express.Express
   private _port: number
   private _db: MongoManager
   private _validte: IHttpValidate
-  private _logger: ILogger
+  private _logger: PinoLogger
   private _server: http.Server| undefined
 
-  constructor(port: number, db: MongoManager, validate: IHttpValidate,logger: ILogger) {
+  constructor(port: number, db: MongoManager, validate: IHttpValidate,logger: PinoLogger) {
     this._app = express()
     this._port = port
     this._db = db
@@ -29,7 +28,7 @@ export class ExpressServer {
     // req.bodyのパース結果をオブジェクトとして受け取るために追加
     this._app.use(express.json()) // JSON形式に対応
     this._app.use(express.urlencoded({ extended: true })) // HTMLフォームの「キー=値」形式に対応
-    this._app.use(pinoHttp({ logger: this._logger as pino.Logger<never> })) // HTTPのロガー(Pinoに依存)
+    this._app.use(pinoHttp({ logger: this._logger.getLogger() })) // HTTPのロガー(Pinoに依存)
 
     this._app.use(this._validte.middleware())
 

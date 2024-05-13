@@ -22,8 +22,8 @@ export class HttpValidte implements IHttpValidate {
         next();
         return
       }
-      const validate = this._ajv.compile(allSchema)
-      const valid = validate(req)
+      const validate = this._ajv.compile(schema)
+      const valid = validate(req.body)
       if (!valid) {
         this._logger.error(new Error(`Validation Error ${validate.errors}`))
         res.status(400).json({
