@@ -8,7 +8,7 @@ export class MongoUserRepository implements IUserRepository {
   private _collection: Collection<Document>
   private _logger: ILogger
   constructor(db: Db, logger: ILogger) {
-    this._collection = db.collection('user')
+    this._collection = db.collection('User')
     this._logger = logger
   }
 

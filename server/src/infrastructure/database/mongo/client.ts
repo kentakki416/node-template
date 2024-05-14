@@ -20,6 +20,7 @@ export class MongoManager {
         break //接続に成功したらループを抜ける
       } catch (err) {
         this._logger.error(err as Error)
+        this._logger.warn('MongoDB connection faild')
         if (i === maxRetries -1) {
           this._logger.error(new Error('MongoDB connection retry limit reached'))
           process.exit(1)
@@ -42,5 +43,12 @@ export class MongoManager {
 
   public getDb(dbName: string): Db {
     return this.client.db(dbName)
+  }
+
+  public async cleanUp(): Promise<void> {
+    const collections = await this.getDb('test').listCollections().toArray()
+    for (const collection of collections) {
+      await this.getDb('test').collection(collection.name).deleteMany({})
+    }
   }
 }

@@ -16,7 +16,6 @@ describe(__filename, () => {
     if ('data' in response) {
       expect(response.code).toEqual(CONSTANT.STATUS_CODE.SUCCESS)
       expect(response.data).toEqual({
-        id: user.id,
         name: user.name,
       })
       expect(response.responsedAt).toBeInstanceOf(Date)

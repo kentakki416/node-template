@@ -39,7 +39,6 @@ describe(__filename, () => {
     mockUserCreateSerializer.execute.mockReturnValue({
       code: 200,
       data: {
-        id: mockUser.id,
         name: mockUser.name
       },
       responsedAt: new Date()

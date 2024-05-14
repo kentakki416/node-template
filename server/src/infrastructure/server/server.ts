@@ -1,12 +1,11 @@
 import * as express from 'express'
-import type pino from 'pino'
 import pinoHttp from 'pino-http'
 
 import * as http from 'http'
 
-import { ExpressServerRouter } from './route'
+import { ExpressRouter } from './route'
 import type { MongoManager } from '../database/mongo/client'
-import type { ILogger } from '../log/i_logger'
+import type { PinoLogger } from '../log/pino_logging'
 import type { IHttpValidate } from '../middleware/http_validate_interface'
 
 export class ExpressServer {
@@ -14,10 +13,10 @@ export class ExpressServer {
   private _port: number
   private _db: MongoManager
   private _validte: IHttpValidate
-  private _logger: ILogger
+  private _logger: PinoLogger
   private _server: http.Server| undefined
 
-  constructor(port: number, db: MongoManager, validate: IHttpValidate,logger: ILogger) {
+  constructor(port: number, db: MongoManager, validate: IHttpValidate,logger: PinoLogger) {
     this._app = express()
     this._port = port
     this._db = db
@@ -25,21 +24,44 @@ export class ExpressServer {
     this._logger = logger
   }
 
+  get app(): express.Express {
+    return this._app
+  }
+
   async run(): Promise<void> {
     // req.bodyのパース結果をオブジェクトとして受け取るために追加
     this._app.use(express.json()) // JSON形式に対応
     this._app.use(express.urlencoded({ extended: true })) // HTMLフォームの「キー=値」形式に対応
-    this._app.use(pinoHttp({ logger: this._logger as pino.Logger<never> })) // HTTPのロガー(Pinoに依存)
+    this._app.use(pinoHttp({ logger: this._logger.getLogger() })) // HTTPのロガー(Pinoに依存)
 
     this._app.use(this._validte.middleware())
 
-    await new ExpressServerRouter(this._app, this._db, this._logger).routing()
+    const expressRouter = new ExpressRouter(this._db, this._logger)
+    const router = await expressRouter.routing()
+    this._app.use(router)
 
     this._server = this._app.listen(this._port)
+
     this._logger.info('express server runnning ...')
 
     process.on('SIGTERM', this.gracefulShutdown.bind(this))
     process.on('SIGINT', this.gracefulShutdown.bind(this))
+  }
+
+  async down(): Promise<void> {
+    if (!this._server) {
+      process.exit(1)
+    }
+    await new Promise((resolve, reject) => {
+      this._server!.close((err) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(true)
+        }
+      })
+    })
+    await this._db.disconnect()
   }
 
   gracefulShutdown(): void {

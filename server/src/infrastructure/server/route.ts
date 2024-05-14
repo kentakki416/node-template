@@ -1,4 +1,4 @@
-import { Express, Router } from 'express'
+import { Router } from 'express'
 
 import { UserCreateController } from '../../adapter/controller/user/user_create_controller'
 import { UserReadController } from '../../adapter/controller/user/user_read_controller'
@@ -9,17 +9,15 @@ import { MongoManager } from '../database/mongo/client'
 import { MongoUserRepository } from '../database/mongo/repository/user_repository'
 import type { ILogger } from '../log/i_logger'
 
-export class ExpressServerRouter {
-  private _app: Express
+export class ExpressRouter {
   private _db: MongoManager
   private _logger: ILogger
-  constructor(app: Express, db: MongoManager, logger: ILogger) {
-    this._app = app
+  constructor(db: MongoManager, logger: ILogger) {
     this._db = db
     this._logger = logger
   }
 
-  public async routing(): Promise<void> {
+  public async routing(): Promise<Router> {
 
     const router = Router()
     const db = this._db.getDb(process.env.DB_NAME || 'test')
@@ -47,6 +45,6 @@ export class ExpressServerRouter {
       res.send(result)
     })
 
-    this._app.use(router)
+    return router
   }
 }

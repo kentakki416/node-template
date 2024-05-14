@@ -8,7 +8,7 @@ import { ExpressServer } from './infrastructure/server/server'
   const logger = new PinoLogger()
   const mongoDB = new MongoManager(logger)
   await mongoDB.connect()
-  const validate = new HttpValidte()
+  const validate = new HttpValidte(logger)
   const server = new ExpressServer(port, mongoDB, validate, logger)
   await server.run()
 })()
