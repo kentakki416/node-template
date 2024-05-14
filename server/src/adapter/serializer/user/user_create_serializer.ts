@@ -3,7 +3,6 @@ import { User } from '../../../domain/entity/user'
 import { BaseSerializer, Response } from '../base_serializer'
 
 export type UserResponseData = {
-  id: number
   name: string
 }
 
@@ -35,7 +34,6 @@ export class UserCreateSerializer extends BaseSerializer {
     return {
       code: CONSTANT.STATUS_CODE.SUCCESS,
       data: {
-        id: data.id,
         name: data.name
       },
       responsedAt: new Date()

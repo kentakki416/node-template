@@ -3,10 +3,10 @@ import pinoHttp from 'pino-http'
 
 import * as http from 'http'
 
-import { ExpressServerRouter } from './route'
+import { ExpressRouter } from './route'
 import type { MongoManager } from '../database/mongo/client'
-import type { IHttpValidate } from '../middleware/http_validate_interface'
 import type { PinoLogger } from '../log/pino_logging'
+import type { IHttpValidate } from '../middleware/http_validate_interface'
 
 export class ExpressServer {
   private _app: express.Express
@@ -24,6 +24,10 @@ export class ExpressServer {
     this._logger = logger
   }
 
+  get app(): express.Express {
+    return this._app
+  }
+
   async run(): Promise<void> {
     // req.bodyのパース結果をオブジェクトとして受け取るために追加
     this._app.use(express.json()) // JSON形式に対応
@@ -32,13 +36,32 @@ export class ExpressServer {
 
     this._app.use(this._validte.middleware())
 
-    await new ExpressServerRouter(this._app, this._db, this._logger).routing()
+    const expressRouter = new ExpressRouter(this._db, this._logger)
+    const router = await expressRouter.routing()
+    this._app.use(router)
 
     this._server = this._app.listen(this._port)
+
     this._logger.info('express server runnning ...')
 
     process.on('SIGTERM', this.gracefulShutdown.bind(this))
     process.on('SIGINT', this.gracefulShutdown.bind(this))
+  }
+
+  async down(): Promise<void> {
+    if (!this._server) {
+      process.exit(1)
+    }
+    await new Promise((resolve, reject) => {
+      this._server!.close((err) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(true)
+        }
+      })
+    })
+    await this._db.disconnect()
   }
 
   gracefulShutdown(): void {
