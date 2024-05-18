@@ -20,7 +20,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./server
-          tags: <TAG>
+          tags: user/app:latest
           target: runtime
           cache-from: type=gha
           cache-to: type=gha,mode=max
