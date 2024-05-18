@@ -7,7 +7,7 @@ export class PinoLogger implements ILogger {
   private _logger: pino.Logger
 
   constructor() {
-    const level = process.env.PINO_LOG_LEVEL || 'info'
+    const level = process.env.PINO_LOG_LEVEL || 'debug'
     const targets = this._getTargets()
     const option: pino.LoggerOptions = {
       level,
