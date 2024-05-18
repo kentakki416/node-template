@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* eslint-disable no-console, @typescript-eslint/no-unused-vars  */
 import type { ILogger } from './i_logger'
 
 export class ConsoleLogger implements ILogger {
