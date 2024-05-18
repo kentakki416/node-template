@@ -19,6 +19,6 @@ jobs:
         run: npm ci
         working-directory: server
 
-      - lint: Run Lint
+      - name: Run Lint
         run: npm run lint
         working-directory: server
