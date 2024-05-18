@@ -30,33 +30,3 @@ jobs:
 #           ssh your-server "docker pull your-dockerhub-username/your-repo-name:latest && docker run -d -p 8080:8080 your-dockerhub-username/your-repo-name:latest"
 #         env:
 #           SSH_KEY: ${{ secrets.SERVER_SSH_KEY }}
-
-# name: Deploy
-# on:
-#   workflow_dispatch:
-#   push:
-#     branches:
-#       - main
-#     workflow_dispatch:
-  
-# jobs:
-#   deploy:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v4
-
-#       - name: Install Docker
-#         run: |
-#           curl -fsSL https://get.docker.com -o get-docker.sh
-#           sh get-docker.sh
-#       - name: Build and push Docker image
-#         run: |
-#           DOCKER_BUILDKIT=1 docker build -t myapp . --target runtime
-#         working-directory: server
-
-      # - name: Deploy to server
-      #   run: |
-      #     ssh your-server "docker pull your-dockerhub-username/your-repo-name:latest && docker run -d -p 8080:8080 your-dockerhub-username/your-repo-name:latest"
-      #   env:
-      #     SSH_KEY: ${{ secrets.SERVER_SSH_KEY }}
