@@ -7,7 +7,7 @@ RUN npm ci --only=production
 ## ビルド環境
 FROM node:20-alpine3.17 as build
 WORKDIR /work
-COPY package*.json ./
+COPY package*.json tsconfig*.json ./
 RUN npm ci 
 COPY . .
 RUN npm run build
