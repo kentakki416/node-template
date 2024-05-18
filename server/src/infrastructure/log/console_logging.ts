@@ -15,8 +15,8 @@ export class ConsoleLogger implements ILogger {
     console.warn(`WARN: ${message}`)
   }
 
-  error(err: Error): void {
-    console.error(`ERROR: ${err.message}`)
+  error(_err: Error): void {
+    return
   }
 
 }
