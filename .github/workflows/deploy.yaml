@@ -51,7 +51,7 @@ jobs:
           sh get-docker.sh
       - name: Build and push Docker image
         run: |
-          docker build -t myapp:latest .
+          DOCKER_BUILDKIT=1 docker build -t myapp . --target runtime
         working-directory: server
 
       # - name: Deploy to server
