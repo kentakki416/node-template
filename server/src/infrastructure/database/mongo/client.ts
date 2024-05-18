@@ -6,7 +6,15 @@ export class MongoManager {
   client: MongoClient
   private _logger: ILogger
   public constructor(logger: ILogger,) {
-    const mongoURI = process.env.NODE_ENV === 'dev'? 'mongodb://root:password@mongo:27017' : 'mongodb://root:password@localhost:27017'
+    let mongoURI
+    if (process.env.NODE_ENV === 'dev') {
+      mongoURI = 'mongodb://root:password@mongo:27017'
+    } else if (process.env.NODE_ENV === 'prd') {
+      // TODO: 本番用のIPアドレスを指定する
+      mongoURI = 'mongodb://root:password@19.003.03.222:27017'
+    } else {
+      mongoURI = 'mongodb://root:password@localhost'
+    }
     this.client = new MongoClient(process.env.MONGODB_URI || mongoURI  )
     this._logger = logger
   }
