@@ -19,12 +19,11 @@ jobs:
       - name: build and push
         uses: docker/build-push-action@v5
         with:
-          context: .
-          tags: <TAG>
+          context: ./server
+          tags: user/app:latest
           target: runtime
           cache-from: type=gha
           cache-to: type=gha,mode=max
-        working-directory: server
 
 #     - name: Deploy to server
 #         run: |
