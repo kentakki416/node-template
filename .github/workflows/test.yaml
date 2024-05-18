@@ -38,7 +38,7 @@ jobs:
         run: npm ci
         working-directory: server
 
-      - lint: Run Lint
+      - name: Run Test
         run: npm run test
         working-directory: server
 

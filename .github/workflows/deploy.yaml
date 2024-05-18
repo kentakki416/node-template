@@ -4,7 +4,7 @@
 #   workflow_dispatch:
 #   push:
 #     branchs:
-#       - master
+#       - main
   
 # jobs:
 #   deploy:
@@ -35,7 +35,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - master
+      - main
   
 jobs:
   deploy:
