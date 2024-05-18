@@ -1,42 +1,10 @@
-# name: Deploy
-
-# on:
-#   workflow_dispatch:
-#   push:
-#     branchs:
-#       - main
-  
-# jobs:
-#   deploy:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v4
-
-#       - name: Setup Docker Buildx
-#         uses: docker/setup-buildx-action@v3
-
-#       - name: build and push
-#         uses: docker/build-push-action@v5
-#         with:
-#           context: .
-#           tags: <TAG>
-#           cache-from: type=gha
-#           cache-to: type=gha,mode=max
-
-#     - name: Deploy to server
-#         run: |
-#           ssh your-server "docker pull your-dockerhub-username/your-repo-name:latest && docker run -d -p 8080:8080 your-dockerhub-username/your-repo-name:latest"
-#         env:
-#           SSH_KEY: ${{ secrets.SERVER_SSH_KEY }}
-
 name: Deploy
+
 on:
   workflow_dispatch:
   push:
-    branches:
+    branchs:
       - main
-    workflow_dispatch:
   
 jobs:
   deploy:
@@ -45,14 +13,48 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install Docker
-        run: |
-          curl -fsSL https://get.docker.com -o get-docker.sh
-          sh get-docker.sh
-      - name: Build and push Docker image
-        run: |
-          DOCKER_BUILDKIT=1 docker build -t myapp . --target runtime
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          tags: <TAG>
+          target: runtime
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
         working-directory: server
+
+#     - name: Deploy to server
+#         run: |
+#           ssh your-server "docker pull your-dockerhub-username/your-repo-name:latest && docker run -d -p 8080:8080 your-dockerhub-username/your-repo-name:latest"
+#         env:
+#           SSH_KEY: ${{ secrets.SERVER_SSH_KEY }}
+
+# name: Deploy
+# on:
+#   workflow_dispatch:
+#   push:
+#     branches:
+#       - main
+#     workflow_dispatch:
+  
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
+
+#       - name: Install Docker
+#         run: |
+#           curl -fsSL https://get.docker.com -o get-docker.sh
+#           sh get-docker.sh
+#       - name: Build and push Docker image
+#         run: |
+#           DOCKER_BUILDKIT=1 docker build -t myapp . --target runtime
+#         working-directory: server
 
       # - name: Deploy to server
       #   run: |
